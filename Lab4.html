@@ -36,28 +36,22 @@
         </style>
     <script>
         function welcomeCustomer() {
-            // Step 1: Welcome the customer
             alert("Welcome to our store!");
 
-            // Step 2: Gather customer information using prompt
             var customerName = prompt("Please enter your name:");
             var itemRequested = prompt("What item would you like to order?");
             var numberOfItems = parseInt(prompt("How many items would you like to order? (1-99)"));
 
-            // Validate the number of items
             if (isNaN(numberOfItems) || numberOfItems < 1 || numberOfItems > 99) {
                 alert("Invalid quantity. Please enter a number between 1 and 99.");
                 return;
             }
 
-            // Step 3: Greet the customer with the appropriate time
-            var greeting = getGreeting();
-            alert(greeting + " " + customerName + ", Thank you for ordering!");
+            displayGreeting(customerName);
+            alert("Thank you for ordering!");
 
-            // Step 4: Display the order information on the website
             displayOrderInformation(customerName, itemRequested, numberOfItems);
 
-            // Step 5: Calculate and display the expected arrival date
             displayArrivalDate();
         }
 
@@ -72,6 +66,11 @@
             } else {
                 return "Good Evening";
             }
+        }
+
+        function displayGreeting(customerName) {
+            var greetingContainer = document.getElementById("greeting");
+            greetingContainer.innerHTML = "<h2>" + getGreeting() + ", " + customerName + "!</h2>";
         }
 
         function displayOrderInformation(customerName, itemRequested, numberOfItems) {
@@ -99,8 +98,8 @@
         <a href = "Lab3.html">Lab3</a>
         <a class = "active" href = "index.html">Lab4</a>
       </div>
+    <div id="greeting"></div>
     <div id="orderInfo"></div>
     <div id="arrivalDate"></div>
-    
 </body>
 </html>
