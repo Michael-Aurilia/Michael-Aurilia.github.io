@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordering Website</title>
+    <style>
+        body {
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        .topnav {
+          overflow: hidden;
+          background-color: #333;
+        }
+        
+        .topnav a {
+          float: left;
+          color: #f2f2f2;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+          font-size: 17px;
+        }
+        
+        .topnav a:hover {
+          background-color: #ddd;
+          color: black;
+        }
+        
+        .topnav a.active {
+          background-color: #04AA6D;
+          color: white;
+        }
+        </style>
+    <script>
+        function welcomeCustomer() {
+            // Step 1: Welcome the customer
+            alert("Welcome to our store!");
+
+            // Step 2: Gather customer information using prompt
+            var customerName = prompt("Please enter your name:");
+            var itemRequested = prompt("What item would you like to order?");
+            var numberOfItems = parseInt(prompt("How many items would you like to order? (1-99)"));
+
+            // Validate the number of items
+            if (isNaN(numberOfItems) || numberOfItems < 1 || numberOfItems > 99) {
+                alert("Invalid quantity. Please enter a number between 1 and 99.");
+                return;
+            }
+
+            // Step 3: Greet the customer with the appropriate time
+            var greeting = getGreeting();
+            alert(greeting + " " + customerName + ", Thank you for ordering!");
+
+            // Step 4: Display the order information on the website
+            displayOrderInformation(customerName, itemRequested, numberOfItems);
+
+            // Step 5: Calculate and display the expected arrival date
+            displayArrivalDate();
+        }
+
+        function getGreeting() {
+            var currentTime = new Date();
+            var currentHour = currentTime.getHours();
+
+            if (currentHour < 12) {
+                return "Good Morning";
+            } else if (currentHour < 18) {
+                return "Good Afternoon";
+            } else {
+                return "Good Evening";
+            }
+        }
+
+        function displayOrderInformation(customerName, itemRequested, numberOfItems) {
+            var orderInfoContainer = document.getElementById("orderInfo");
+            orderInfoContainer.innerHTML = "<h2>Your Order Information:</h2>" +
+                "<p><strong>Name:</strong> " + customerName + "</p>" +
+                "<p><strong>Item Requested:</strong> " + itemRequested + "</p>" +
+                "<p><strong>Number of Items:</strong> " + numberOfItems + "</p>";
+        }
+
+        function displayArrivalDate() {
+            var currentDate = new Date();
+            var arrivalDate = new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days later
+
+            var arrivalDateContainer = document.getElementById("arrivalDate");
+            arrivalDateContainer.innerHTML = "<p><strong>Expected Arrival Date:</strong> " +
+                arrivalDate.toDateString() + "</p>";
+        }
+    </script>
+</head>
+<body onload="welcomeCustomer()">
+    <div id="orderInfo"></div>
+    <div id="arrivalDate"></div>
+    <div class = "topnav">
+        <a href = "index.html">Home</a>
+        <a href = "Lab2.html">Lab2</a>
+        <a href = "Lab3.html">Lab3</a>
+        <a class = "active" href = "index.html">Lab4</a>
+      </div>
+</body>
+</html>
