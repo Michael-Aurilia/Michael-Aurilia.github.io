@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cat Facts</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+   table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+   
+   body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    
+    .topnav {
+      overflow: hidden;
+      background-color: #333;
+    }
+    
+    .topnav a {
+      float: left;
+      color: #f2f2f2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-size: 17px;
+    }
+    
+    .topnav a:hover {
+      background-color: #ddd;
+      color: black;
+    }
+    
+    .topnav a.active {
+      background-color: #04AA6D;
+      color: white;
+    }
+    </style>
+</head>
+<body>
+    <div class = "topnav">
+        <a href = "index.html">Home</a>
+        <a href = "Lab2.html">Lab2</a>
+        <a href = "Lab3.html">Lab3</a>
+        <a href = "Lab4.html">Lab4</a>
+        <a href = "Lab5.html">Lab5</a>
+        <a class = "active" href = "Lab6.html">Lab6</a>
+      </div>
+  
+      <h1>Cat Facts</h1>
+
+      <button id="fetchDataButton">Fetch Data</button>
+      
+      <table id="catFactsTable">
+          <thead>
+              <tr>
+                  <th>Fact ID</th>
+                  <th>Fact</th>
+              </tr>
+          </thead>
+          <tbody>
+          </tbody>
+      </table>
+      
+      <img id="catImage" src="placeholder.jpg" alt="Cat Image">
+      
+      <script>
+          document.getElementById("fetchDataButton").addEventListener("click", fetchData);
+      
+          function fetchData() {
+              fetch('https://brianobruno.github.io/cats.json')
+                  .then(response => response.json())
+                  .then(data => {
+                      // Sort the facts array by factId
+                      data.facts.sort((a, b) => a.factId - b.factId);
+      
+                      // Populate the table with sorted data
+                      const tableBody = document.querySelector("#catFactsTable tbody");
+                      tableBody.innerHTML = "";
+                      data.facts.forEach(fact => {
+                          const row = document.createElement("tr");
+                          row.innerHTML = `<td>${fact.factId}</td><td>${fact.fact}</td>`;
+                          tableBody.appendChild(row);
+                      });
+      
+                      // Update the image with the new picture link
+                      const catImage = document.getElementById("catImage");
+                      catImage.src = data.pictureURL;
+                  })
+                  .catch(error => console.error('Error fetching data:', error));
+          }
+      </script>
+      
+
+
+</body>
+</html>
