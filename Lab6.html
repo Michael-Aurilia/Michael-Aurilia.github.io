@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cat Facts</title>
+  <title>Cat Facts + Photo</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <style>
    table {
@@ -68,46 +68,48 @@
   
       <h1>Cat Facts</h1>
 
-<button id="fetchDataButton">Fetch Data</button>
+<button id="getDataButton">Fill In Data</button>
 
-<table id="catFactsTable">
+<table id="catFacts">
     <thead>
         <tr>
-            <th>Fact ID</th>
-            <th>Fact</th>
+            <th>fact ID</th>
+            <th>fact</th>
         </tr>
     </thead>
     <tbody>
     </tbody>
 </table>
 
-<img id="catImage" src="placeholder.jpg" alt="Cat Image">
+<img id="catImage" src="placeholder.jpg" alt="Cute Cat Image">
 
 <script>
-    document.getElementById("fetchDataButton").addEventListener("click", fetchData);
+    document.getElementById("getDataButton").addEventListener("click", fetchData);
 
     function fetchData() {
         fetch('https://brianobruno.github.io/cats.json')
             .then(response => response.json())
             .then(data => {
-                // Sort the facts array by factId
                 data.facts.sort((a, b) => a.factId - b.factId);
 
-                // Populate the table with sorted data
-                const tableBody = document.querySelector("#catFactsTable tbody");
+                const tableBody = document.querySelector("#catFacts tbody");
                 tableBody.innerHTML = "";
+
                 data.facts.forEach(fact => {
                     const row = document.createElement("tr");
                     row.innerHTML = `<td>${fact.factId}</td><td>${fact.text}</td>`;
+
                     tableBody.appendChild(row);
                 });
 
-                // Update the image with the new picture link
                 const catImage = document.getElementById("catImage");
                 catImage.src = data.catPhoto;
+
             })
-            .catch(error => console.error('Error fetching data:', error));
+
+            .catch(error => console.error('Error with fetching data: ', error));
     }
+
 </script>
 </body>
 </html>
