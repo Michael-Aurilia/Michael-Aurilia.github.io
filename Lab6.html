@@ -98,13 +98,13 @@
                 tableBody.innerHTML = "";
                 data.facts.forEach(fact => {
                     const row = document.createElement("tr");
-                    row.innerHTML = `<td>${fact.factId}</td><td>${fact.fact}</td>`;
+                    row.innerHTML = `<td>${fact.factId}</td><td>${fact.text}</td>`;
                     tableBody.appendChild(row);
                 });
 
                 // Update the image with the new picture link
                 const catImage = document.getElementById("catImage");
-                catImage.src = data.pictureURL;
+                catImage.src = data.catPhoto;
             })
             .catch(error => console.error('Error fetching data:', error));
     }
