@@ -1,85 +1,95 @@
 document.addEventListener("DOMContentLoaded", function() {
   const searchInput = document.getElementById("searchInput");
+  const autocompleteDropdown = document.getElementById("autocompleteDropdown");
   const searchButton = document.getElementById("searchButton");
   const pokemonDetails = document.getElementById("pokemonDetails");
+  let pokemonNames = []; // List to store Pokémon names
 
-  // Function to fetch Pokémon abilities from the API
-  async function fetchPokemonAbilities(pokemonName) {
+  // Function to fetch Pokémon names from the API
+  async function fetchPokemonNames() {
     try {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+      const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1000");
       const data = await response.json();
-      return data.abilities;
+      pokemonNames = data.results.map(pokemon => pokemon.name);
     } catch (error) {
-      console.error("Error fetching Pokémon abilities:", error);
-      return [];
+      console.error("Error fetching Pokémon names:", error);
     }
   }
 
-  // Function to display Pokémon abilities in the UI
-  function displayPokemonAbilities(abilities) {
-    if (abilities.length === 0) {
-      pokemonDetails.innerHTML = "<p>No abilities found for this Pokémon.</p>";
-      return;
-    }
+  // Function to display autocomplete suggestions
+  function displayAutocompleteSuggestions() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    const matchedPokemons = pokemonNames.filter(pokemon => pokemon.startsWith(searchTerm));
+    const suggestionsHTML = matchedPokemons.map(pokemon => `<a class="dropdown-item" href="#">${pokemon}</a>`).join('');
+    autocompleteDropdown.innerHTML = suggestionsHTML;
+    autocompleteDropdown.classList.toggle('show', matchedPokemons.length > 0);
+  }
 
-    const abilitiesList = abilities.map(ability => `
-      <div class="col-md-4">
-        <div class="card mb-3">
+  // Event listener for input in the search bar
+  searchInput.addEventListener("input", displayAutocompleteSuggestions);
+
+  // Event listener for search button click
+  searchButton.addEventListener("click", handlePokemonSearch);
+
+  // Function to handle Pokémon search
+  function handlePokemonSearch() {
+    const searchTerm = searchInput.value.trim().toLowerCase();
+    if (searchTerm) {
+      fetchPokemonDetails(searchTerm)
+        .then(data => {
+          if (data) {
+            displayPokemonDetails(data);
+            updateURL(searchTerm);
+          } else {
+            pokemonDetails.innerHTML = "<p>Pokémon details not found.</p>";
+          }
+        })
+        .catch(error => {
+          console.error("Error:", error);
+          pokemonDetails.innerHTML = "<p>An error occurred while fetching Pokémon details.</p>";
+        });
+    }
+  }
+
+  // Fetch Pokémon names when the page loads
+  fetchPokemonNames();
+
+  // Function to get Pokémon details from the API
+  async function fetchPokemonDetails(pokemonName) {
+    try {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching Pokémon details:", error);
+      return null;
+    }
+  }
+
+  // Function to display Pokémon details in the UI
+  function displayPokemonDetails(pokemon) {
+    const pokemonCard = `
+      <div class="col-md-4 offset-md-4">
+        <div class="card">
           <div class="card-body">
-            <h5 class="card-title">${ability.ability.name}</h5>
-            <p class="card-text">${ability.is_hidden ? "(Hidden Ability)" : ""}</p>
+            <h5 class="card-title">${pokemon.name}</h5>
+            <img src="${pokemon.sprites.front_default}" class="img-fluid mb-3" alt="${pokemon.name}">
+            <p class="card-text">Height: ${pokemon.height} decimetres</p>
+            <p class="card-text">Weight: ${pokemon.weight} hectograms</p>
+            <p class="card-text">Abilities:</p>
+            <ul>
+              ${pokemon.abilities.map(ability => `<li>${ability.ability.name}</li>`).join('')}
+            </ul>
           </div>
         </div>
       </div>
-    `).join('');
-
-    pokemonDetails.innerHTML = abilitiesList;
+    `;
+    pokemonDetails.innerHTML = pokemonCard;
   }
 
   // Function to update URL with the searched Pokémon name
   function updateURL(pokemonName) {
     const newURL = `${window.location.pathname}?name=${pokemonName}`;
     window.history.pushState({ path: newURL }, '', newURL);
-  }
-
-  // Function to handle Pokémon search
-  function handlePokemonSearch() {
-    const searchTerm = searchInput.value.trim().toLowerCase();
-    if (searchTerm) {
-      fetchPokemonAbilities(searchTerm)
-        .then(abilities => {
-          displayPokemonAbilities(abilities);
-          updateURL(searchTerm);
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          pokemonDetails.innerHTML = "<p>An error occurred while fetching Pokémon abilities.</p>";
-        });
-    }
-  }
-
-  // Event listener for search button click
-  searchButton.addEventListener("click", handlePokemonSearch);
-
-  // Fetch Pokémon abilities when the page loads
-  const pokemonName = getPokemonNameFromURL();
-  if (pokemonName) {
-    fetchPokemonAbilities(pokemonName)
-      .then(abilities => {
-        displayPokemonAbilities(abilities);
-      })
-      .catch(error => {
-        console.error("Error:", error);
-        pokemonDetails.innerHTML = "<p>An error occurred while fetching Pokémon abilities.</p>";
-      });
-  } else {
-    pokemonDetails.innerHTML = "<p>Pokémon name not provided.</p>";
-  }
-
-  // Function to get Pokémon name from URL query parameter
-  function getPokemonNameFromURL() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    return urlParams.get('name');
   }
 });
