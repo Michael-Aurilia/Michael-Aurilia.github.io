@@ -26,13 +26,21 @@ document.addEventListener("DOMContentLoaded", function() {
             <p class="card-text">Height: ${pokemon.height} decimetres</p>
             <p class="card-text">Weight: ${pokemon.weight} hectograms</p>
             <p class="card-text">Types:</p>
-            <ul>
-              ${pokemon.types.map(type => `<li>${type.type.name}</li>`).join('')}
+            <ul class="list-inline">
+              ${pokemon.types.map(type => `<li class="list-inline-item">${type.type.name}</li>`).join('')}
             </ul>
             <p class="card-text">Moves Learned:</p>
-            <ul>
-              ${pokemon.moves.map(move => `<li>${move.move.name}</li>`).join('')}
-            </ul>
+            <div class="row row-cols-2">
+              ${pokemon.moves.map(move => `
+                <div class="col">
+                  <div class="card mb-2">
+                    <div class="card-body">
+                      <p class="card-text">${move.move.name}</p>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
           </div>
         </div>
       </div>
@@ -85,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function() {
         pokemonDetails.innerHTML = "<p>An error occurred while fetching Pokémon details.</p>";
       });
   } else {
-    pokemonDetails.innerHTML = "<p>Which Pokemon are you looking for?</p>";
+    pokemonDetails.innerHTML = "<p>Pokémon name not provided.</p>";
   }
 
   // Function to get Pokémon name from URL query parameter
