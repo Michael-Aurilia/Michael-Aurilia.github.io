@@ -25,9 +25,13 @@ document.addEventListener("DOMContentLoaded", function() {
             <img src="${pokemon.sprites.front_default}" class="img-fluid mb-3" alt="${pokemon.name}">
             <p class="card-text">Height: ${pokemon.height} decimetres</p>
             <p class="card-text">Weight: ${pokemon.weight} hectograms</p>
-            <p class="card-text">Abilities:</p>
+            <p class="card-text">Types:</p>
             <ul>
-              ${pokemon.abilities.map(ability => `<li>${ability.ability.name}</li>`).join('')}
+              ${pokemon.types.map(type => `<li>${type.type.name}</li>`).join('')}
+            </ul>
+            <p class="card-text">Moves Learned:</p>
+            <ul>
+              ${pokemon.moves.map(move => `<li>${move.move.name}</li>`).join('')}
             </ul>
           </div>
         </div>
@@ -40,13 +44,6 @@ document.addEventListener("DOMContentLoaded", function() {
   function updateURL(pokemonName) {
     const newURL = `${window.location.pathname}?name=${pokemonName}`;
     window.history.pushState({ path: newURL }, '', newURL);
-  }
-
-  // Function to get Pokémon name from URL query parameter
-  function getPokemonNameFromURL() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    return urlParams.get('name');
   }
 
   // Function to handle Pokémon search
@@ -89,5 +86,12 @@ document.addEventListener("DOMContentLoaded", function() {
       });
   } else {
     pokemonDetails.innerHTML = "<p>Which Pokemon are you looking for?</p>";
+  }
+
+  // Function to get Pokémon name from URL query parameter
+  function getPokemonNameFromURL() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    return urlParams.get('name');
   }
 });
