@@ -88,6 +88,6 @@ document.addEventListener("DOMContentLoaded", function() {
         pokemonDetails.innerHTML = "<p>An error occurred while fetching Pokémon details.</p>";
       });
   } else {
-    pokemonDetails.innerHTML = "<p>Pokémon name not provided.</p>";
+    pokemonDetails.innerHTML = "<p>Which Pokemon are you looking for?</p>";
   }
 });
