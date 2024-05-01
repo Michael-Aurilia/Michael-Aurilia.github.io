@@ -17,6 +17,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Function to display Pokémon details in the UI
   function displayPokemonDetails(pokemon) {
+    const types = pokemon.types.map(type => `<li class="list-inline-item">${type.type.name}</li>`).join('');
+  
+    const moves = pokemon.moves.map(move => `<div class="col-md-4"><p class="card-text">${move.move.name}</p></div>`).join('');
+    
     const pokemonCard = `
       <div class="col-md-4 offset-md-4">
         <div class="card">
@@ -26,21 +30,9 @@ document.addEventListener("DOMContentLoaded", function() {
             <p class="card-text">Height: ${pokemon.height} decimetres</p>
             <p class="card-text">Weight: ${pokemon.weight} hectograms</p>
             <p class="card-text">Types:</p>
-            <ul class="list-inline">
-              ${pokemon.types.map(type => `<li class="list-inline-item">${type.type.name}</li>`).join('')}
-            </ul>
+            <ul class="list-inline">${types}</ul>
             <p class="card-text">Moves Learned:</p>
-            <div class="row row-cols-2">
-              ${pokemon.moves.map(move => `
-                <div class="col">
-                  <div class="card mb-2">
-                    <div class="card-body">
-                      <p class="card-text">${move.move.name}</p>
-                    </div>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
+            <div class="row">${moves}</div>
           </div>
         </div>
       </div>
