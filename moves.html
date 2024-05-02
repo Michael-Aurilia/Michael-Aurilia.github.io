@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Pokémon Moves</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<style>
+    .visual-appeal-image {
+    margin-top: 50px; 
+    float: right; 
+    width: 500px; 
+    border: 5px solid #000;
+  }
+    
+    .topnav {
+    overflow: hidden;
+    background-color: #333;
+  }
+  
+  .topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  }
+  
+  .topnav a:hover {
+    background-color: #ddd;
+    color: black;
+  }
+  
+  .topnav a.active {
+    background-color: #04AA6D;
+    color: white;
+  }
+  
+  body {
+      background-color: #ffee7c; 
+  }
+  
+  body {
+      color: #333; /* Dark gray text */
+  }
+  
+  .btn {
+      background-color: #007bff; /* Blue background */
+      color: #fff; /* White text */
+  }
+  
+  .topnav {
+      background-color: #333; /* Dark background for navbar */
+  }
+  
+  .card {
+      background-color: #fff; /* White background for cards */
+  }
+  
+  .btn:hover {
+      background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  a {
+      color: #007bff; /* Blue link color */
+  }
+  
+  a:hover {
+      color: #0056b3; /* Darker blue on hover */
+  }
+  
+  .accent {
+      color: #ff6600; /* Orange accent color */
+  }
+  </style>
+<body>
+
+    <div class = "topnav">
+        <a href = "index.html">Details</a>
+        <a class = "active" href = "moves.html">Moves</a>
+        <a href = "abilities.html">Abilities</a>
+      </div>
+
+    <div class="container mt-5">
+        <img src="Moves.jpg" alt="Moves In Battle" class="visual-appeal-image">
+        <h1 class="text-center mb-4">This is the Pokémon Moves page!</h1>
+        <h3>Enter a move to see its effects and who learns it!</h3>
+        <div class="input-group mb-3">
+          <input type="text" id="moveInput" class="form-control" placeholder="Search for a move...">
+          <div id="autocompleteDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton"></div>
+          <button id="searchButton" class="btn btn-primary" type="button">Search</button>
+        </div>
+        <div id="moveDetails" class="row"></div>
+        </div>
+      </div>
+    
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="moves.js"></script>
+    </body>
+    </html>
