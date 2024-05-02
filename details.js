@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
   function displayAutocompleteSuggestions() {
     const searchTerm = searchInput.value.trim().toLowerCase();
     const matchedPokemons = pokemonNames.filter(pokemon => pokemon.startsWith(searchTerm));
-    const suggestionsHTML = matchedPokemons.map(pokemon => `<a class="dropdown-item d-block" href="#">${pokemon}</a>`).join('');
+    const suggestionsHTML = matchedPokemons.map(pokemon => `<a class="dropdown-item d-block" href="#">${pokemon}</a>`).join('\n');
     autocompleteDropdown.innerHTML = suggestionsHTML;
     autocompleteDropdown.classList.toggle('show', matchedPokemons.length > 0);
   }
